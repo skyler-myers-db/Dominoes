@@ -67,11 +67,11 @@ while True:
     print_hand()
 
     if status == 'player':
-        status = 'computer'
+        status: str = 'computer'
         print("\nStatus: It's your turn to make a move. Enter your command.")
         while True:
             try:
-                move = int(input())
+                move: int = int(input())
             except ValueError:
                 print("Invalid input. Please try again.")
                 continue
@@ -81,12 +81,12 @@ while True:
                     continue
             if move == 0:
                 if stock:
-                    piece = random.choice(stock)
+                    piece: list = random.choice(stock)
                     player_hand.append(piece)
                     stock.remove(piece)
             elif move > 0:
                 move -= 1
-                piece = player_hand[move]
+                piece: list = player_hand[move]
                 if snake[-1][-1] not in piece:
                     print("Illegal move. Please try again.")
                     continue
@@ -96,7 +96,7 @@ while True:
                     snake.append(piece)
                 player_hand.remove(piece)
             elif move < 0:
-                move = abs(move) - 1
+                move: int = abs(move) - 1
                 piece = player_hand[move]
                 if snake[0][0] not in piece:
                     print("Illegal move. Please try again.")
@@ -109,10 +109,10 @@ while True:
 
             break
     elif status == 'computer':
-        status = 'player'
+        status: str = 'player'
         input("\nStatus: Computer is about to make a move. Press Enter to continue...\n")
-        attempts = 0
-        counts = {}
+        attempts: int = 0
+        counts: dict = {}
 
         for domino in computer_hand:
             for num in domino:
@@ -122,17 +122,17 @@ while True:
             for num in domino:
                 counts[num] = counts.get(num, 0) + 1
 
-        top_picks = {tuple(key): counts[key[0]] + counts[key[1]] for key in computer_hand}
-        top_picks = sorted(top_picks, key=lambda x: top_picks[x], reverse=True)
+        top_picks: dict = {tuple(key): counts[key[0]] + counts[key[1]] for key in computer_hand}
+        top_picks: List[tuple] = sorted(top_picks, key=lambda x: top_picks[x], reverse=True)
 
         while True:
 
-            move = list(top_picks[attempts])
+            move: list = list(top_picks[attempts])
             attempts += 1
 
             if len(top_picks) == attempts:
                 if stock:
-                    piece = random.choice(stock)
+                    piece: list = random.choice(stock)
                     computer_hand.append(piece)
                     stock.remove(piece)
             elif snake[0][0] in move:
@@ -163,8 +163,8 @@ while True:
             break
 
         if snake[0][0] == snake[-1][-1]:
-            end_piece = snake[0][0]
-            end_count = len([inner for outer in snake for inner in outer if inner == end_piece])
+            end_piece: int = snake[0][0]
+            end_count: int = len([inner for outer in snake for inner in outer if inner == end_piece])
             if end_count >= 8:
                 if status == 'player':
                     print("Status: The game is over. The computer won!")
@@ -176,7 +176,7 @@ while True:
                 print("Status: The game is over. It's a draw!")
                 break
 
-        score = {}
+        score: dict = {}
 
         for domino in snake:
             for num in domino:
